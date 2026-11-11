@@ -8,8 +8,9 @@ import {
   Sparkles,
   ExternalLink,
   Code2,
-  FolderGit2,
+  Globe,
 } from 'lucide-react';
+import GithubIcon from './icons/GithubIcon';
 
 export default function Projects() {
   const { lang, data } = useApp();
@@ -25,18 +26,18 @@ export default function Projects() {
             <span>{data.nav.projects}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-base-content tracking-tight">
-            {lang === 'th' ? 'โครงงานและผลงานที่โดดเด่น' : 'Featured Projects & Experience'}
+            {lang === 'th' ? 'โครงงานและผลงานที่โดดเด่น' : 'Featured Projects & Portfolio'}
           </h2>
           <p className="text-sm text-base-content/70">
             {lang === 'th'
-              ? 'ผลงานพัฒนาโปรเจกต์จริงจากสถาบันการศึกษาที่มีความซับซ้อนและการใช้งานจริง'
-              : 'Real-world software engineering projects showcasing frontend and architecture skills.'}
+              ? 'ผลงานพัฒนาโปรเจกต์จริงที่เน้นการออกแบบสถาปัตยกรรม และการสร้าง UI/UX ที่ตอบโจทย์การใช้งานจริง'
+              : 'Real-world software engineering and personal projects showcasing frontend, architecture, and UI/UX skills.'}
           </p>
         </div>
 
         {/* Projects List */}
         <div className="space-y-8">
-          {projects.map((project) => (
+          {projects.map((project, pIndex) => (
             <div
               key={project.id}
               className="card bg-base-100 border border-base-300 shadow-md hover:shadow-xl hover:border-primary/40 transition-all duration-300 overflow-hidden"
@@ -45,7 +46,11 @@ export default function Projects() {
               <div className="bg-gradient-to-r from-primary/10 via-base-200 to-secondary/10 px-6 py-4 border-b border-base-200 flex flex-wrap items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <div className="p-2.5 rounded-xl bg-primary text-primary-content font-bold shadow-sm">
-                    <FileText className="w-5 h-5" />
+                    {project.id === 'resume-webpage' ? (
+                      <Globe className="w-5 h-5" />
+                    ) : (
+                      <FileText className="w-5 h-5" />
+                    )}
                   </div>
                   <div>
                     <div className="flex items-center gap-2 flex-wrap">
@@ -62,10 +67,33 @@ export default function Projects() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-2 flex-wrap">
                   <span className="badge badge-outline text-xs font-medium">
                     {project.type}
                   </span>
+                  {project.githubUrl && (
+                    <a
+                      href={project.githubUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn btn-xs btn-neutral gap-1.5 font-semibold"
+                    >
+                      <GithubIcon className="w-3.5 h-3.5" />
+                      <span>GitHub</span>
+                      <ExternalLink className="w-3 h-3 opacity-60" />
+                    </a>
+                  )}
+                  {project.demoUrl && (
+                    <a
+                      href={project.demoUrl}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="btn btn-xs btn-primary gap-1 font-semibold text-primary-content"
+                    >
+                      <Globe className="w-3.5 h-3.5" />
+                      <span>Live Demo</span>
+                    </a>
+                  )}
                 </div>
               </div>
 
@@ -119,4 +147,3 @@ export default function Projects() {
     </section>
   );
 }
-

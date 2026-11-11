@@ -89,6 +89,26 @@ npm run preview
 
 ---
 
+## ☁️ Deployment on Vercel
+
+This project is pre-configured with `vercel.json` for one-click seamless deployment on [Vercel](https://vercel.com):
+
+### Option A: Via Vercel Dashboard (Recommended)
+1. Go to [vercel.com](https://vercel.com) and click **"Add New..."** -> **"Project"**.
+2. Select and import repository `thanawat-pete/thanawat-resume-webpage`.
+3. Vercel automatically detects the **Vite** framework preset with:
+   - **Build Command:** `npm run build`
+   - **Output Directory:** `dist`
+4. Click **Deploy**!
+
+### Option B: Via Vercel CLI
+```bash
+npm i -g vercel
+vercel
+```
+
+---
+
 ## 👤 Author
 
 - **Name:** Thanawat Srisaeng (Pete) / นาย ธนวัฒน์ ศรีแสง
