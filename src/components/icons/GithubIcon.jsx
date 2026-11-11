@@ -16,3 +16,4 @@ export function GithubIcon({ className = 'w-4 h-4', ...props }) {
 }
 
 export default GithubIcon;
+

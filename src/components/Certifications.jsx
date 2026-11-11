@@ -5,7 +5,7 @@ import {
   Calendar,
   CheckCircle,
   ExternalLink,
-  BookOpen,
+  ShieldCheck,
   Sparkles,
 } from 'lucide-react';
 
@@ -15,29 +15,34 @@ export default function Certifications() {
   const [selectedCategory, setSelectedCategory] = useState('all');
 
   const categories = [
-    { id: 'all', label: lang === 'th' ? 'ทั้งหมด (10)' : 'All (10)' },
+    { id: 'all', label: lang === 'th' ? 'ทั้งหมด (14)' : 'All (14)' },
     { id: 'ai', label: lang === 'th' ? 'AI & Prompt' : 'AI & Prompt' },
+    { id: 'uiux', label: lang === 'th' ? 'UI/UX & Design' : 'UI/UX & Design' },
     { id: 'software', label: lang === 'th' ? 'Software & Web' : 'Software & Web' },
-    { id: 'cloud-data', label: lang === 'th' ? 'Cloud & Data' : 'Cloud & Data' },
+    { id: 'cloud', label: lang === 'th' ? 'Cloud & Data' : 'Cloud & Data' },
   ];
 
   const filteredCerts = certifications.filter((cert) => {
     if (selectedCategory === 'all') return true;
-    if (selectedCategory === 'ai')
+    if (selectedCategory === 'ai') {
       return (
         cert.category.includes('AI') ||
         cert.category.includes('Prompt') ||
         cert.category.includes('Intelligence')
       );
-    if (selectedCategory === 'software')
+    }
+    if (selectedCategory === 'uiux') {
+      return cert.category.includes('UI/UX') || cert.category.includes('Design');
+    }
+    if (selectedCategory === 'software') {
       return (
         cert.category.includes('Software') ||
-        cert.category.includes('Web') ||
-        cert.category.includes('Programming') ||
         cert.category.includes('Cybersecurity')
       );
-    if (selectedCategory === 'cloud-data')
+    }
+    if (selectedCategory === 'cloud') {
       return cert.category.includes('Cloud') || cert.category.includes('Data');
+    }
     return true;
   });
 
@@ -51,12 +56,12 @@ export default function Certifications() {
             <span>{data.nav.certifications}</span>
           </div>
           <h2 className="text-2xl sm:text-3xl font-extrabold text-base-content tracking-tight">
-            {lang === 'th' ? 'การอบรมและใบรับรองความรู้' : 'Training & Certifications'}
+            {lang === 'th' ? 'การอบรมและใบรับรองความรู้ (14 รายการ)' : 'Training & Certifications (14 Credentials)'}
           </h2>
           <p className="text-sm text-base-content/70">
             {lang === 'th'
-              ? 'การพัฒนาความรู้และทักษะอย่างต่อเนื่องจากสถาบันและแพลตฟอร์มระดับสากล'
-              : 'Continuous professional learning from leading global universities and institutions.'}
+              ? 'ใบรับรองความรู้จริงจาก Google, IBM, Meta, Vanderbilt, Scrimba, Xbox และ Cloud Ace สามารถตรวจสอบได้'
+              : 'Verified credentials from Google, IBM, Meta, Vanderbilt, Scrimba, Xbox, and Cloud Ace.'}
           </p>
         </div>
 
@@ -80,16 +85,21 @@ export default function Certifications() {
 
         {/* Certifications Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {filteredCerts.map((cert, index) => (
+          {filteredCerts.map((cert) => (
             <div
-              key={index}
-              className="card bg-base-100 border border-base-300 hover:border-primary/40 hover:shadow-md transition-all duration-200 p-5 space-y-3 flex flex-col justify-between"
+              key={cert.id}
+              className="card bg-base-100 border border-base-300 hover:border-primary/50 hover:shadow-md transition-all duration-200 p-5 space-y-3 flex flex-col justify-between"
             >
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-2">
-                  <span className="badge badge-sm badge-outline text-[11px] font-semibold text-primary">
-                    {cert.category}
-                  </span>
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between gap-2 flex-wrap">
+                  <div className="flex items-center gap-1.5">
+                    <span className="badge badge-sm badge-primary badge-outline text-[11px] font-semibold">
+                      {cert.category}
+                    </span>
+                    <span className="badge badge-sm badge-ghost text-[10px] text-base-content/60">
+                      {cert.platform}
+                    </span>
+                  </div>
                   <div className="flex items-center gap-1 text-xs text-base-content/60 font-medium">
                     <Calendar className="w-3.5 h-3.5" />
                     <span>{cert.date}</span>
@@ -101,12 +111,28 @@ export default function Certifications() {
                 </h4>
               </div>
 
-              <div className="pt-2 border-t border-base-200 flex items-center justify-between text-xs text-base-content/70">
-                <span className="font-medium text-base-content/85">{cert.issuer}</span>
-                <span className="flex items-center gap-1 text-success font-semibold">
-                  <CheckCircle className="w-3.5 h-3.5" />
-                  <span>Verified</span>
+              <div className="pt-3 border-t border-base-200 flex items-center justify-between text-xs text-base-content/70">
+                <span className="font-semibold text-base-content/90">
+                  {cert.issuer}
                 </span>
+
+                {cert.verifyUrl ? (
+                  <a
+                    href={cert.verifyUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-1.5 font-bold text-primary hover:underline hover:text-primary-focus transition-colors"
+                  >
+                    <ShieldCheck className="w-4 h-4 text-success" />
+                    <span>{data.ui.verifyCredential}</span>
+                    <ExternalLink className="w-3 h-3 opacity-70" />
+                  </a>
+                ) : (
+                  <span className="inline-flex items-center gap-1 text-success font-medium">
+                    <CheckCircle className="w-3.5 h-3.5" />
+                    <span>Verified</span>
+                  </span>
+                )}
               </div>
             </div>
           ))}
